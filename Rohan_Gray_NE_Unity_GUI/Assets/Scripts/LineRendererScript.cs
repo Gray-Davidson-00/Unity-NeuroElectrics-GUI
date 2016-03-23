@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class LineRendererScript : MonoBehaviour
 {
@@ -42,13 +43,15 @@ public class LineRendererScript : MonoBehaviour
     private Vector3[] positionarray = new Vector3[20] { destination1, destination2 , destination3,destination4,destination5,destination6,destination7,destination8,destination9,destination10,destination11,destination12,destination13,destination14,destination15,destination16,destination17,destination18,destination19,destination20 };
     private Vector3[] Change = new Vector3[20]; // Change Vector equates the normalized values to the Y variable.
 
-    public float lineDrawSpeed = 2f;
-    public float scale = 10f;
+    public float lineDrawSpeed = 10f;
+    private int scale;
     static double[,] NormalizedValues1 = new double[1500,20];
     private int scalefactor1;
+    public Text scale_value;
 
     void Start()
     {
+        SetScaleFactor();
         for (int i = 0; i < 20; i++)
         {
            
@@ -61,12 +64,12 @@ public class LineRendererScript : MonoBehaviour
     // Update is called once per frame
    void Update()
     {
-        UnityEngine.Debug.Log("Gray Waypoint11 - is LineRendererScript Running?");
+        SetScaleFactor();
         for (int k = 0; k < 20;k++)
         {
             electrodelines[k] = this.tcp.electrodes[k]; 
             ValueForInteraction = this.lriv.IntegerVariable;
-            ValueForScale = this.lriv.ScaleFactor;
+            scalefactor1 = this.lriv.ScaleFactor;
             newelectrodes[k] = this.tcp.DifferentElectrodes[k];
             
             for (int i = 0; i < x; i++)
@@ -78,7 +81,7 @@ public class LineRendererScript : MonoBehaviour
                 }
                 else
                 {
-                    Change[k] = new Vector3(800f + (i / 1.6f), positionarray[k].y + ((float)NormalizedValues1[i, k] * 10), 20f); // Change = new position for Renderer
+                    Change[k] = new Vector3(800f + (i / 1.6f), positionarray[k].y + ((float)NormalizedValues1[i, k] * 10 * scalefactor1), 20f); // Change = new position for Renderer
                     lines[k].SetPosition(i, Change[k]);
                     lines[k].SetWidth(1f, 1f); //This is where we set the line weight of the EEG trace. 
                     lines[k].SetColors(electrodelines[k].material.color, electrodelines[k].material.color); // Setting the colors of the renderers to the equivalent electrodes. Note: Sequence of Electrodes is important for correct referencing to respective Renderers
@@ -94,5 +97,9 @@ public class LineRendererScript : MonoBehaviour
 
     }
 
+    void SetScaleFactor()
+    {
+        scale_value.text = "Scale: " + scalefactor1.ToString();
+    }
 
 }

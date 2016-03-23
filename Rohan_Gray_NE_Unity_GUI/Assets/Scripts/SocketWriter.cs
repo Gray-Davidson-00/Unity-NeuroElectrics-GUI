@@ -79,7 +79,7 @@ namespace Sockets
 		{
 			byte codeByte = (byte) code;
 			byte[] bufferOut = {codeByte};
-			Debug.Log("Sending " + bufferOut[0] + " (int)\n");
+//			Debug.Log("Sending " + bufferOut[0] + " (int)\n");
 			//socket.BeginSend(bufferOut, 0, bufferOut.Length, SocketFlags.None, new AsyncCallback (OnSend), this);
 			socket.BeginSend(bufferOut, 0, 1, SocketFlags.None, new AsyncCallback (OnSend), this);
 		}
@@ -96,7 +96,7 @@ namespace Sockets
 		}
 		public static SocketWriter Begin (int code, Socket socket, IncomingWriteHandler writeHandler, IncomingWriteErrorHandler errorHandler = null)
 		{
-			Debug.Log("Sending " + code + " to NIC (int)");
+//			Debug.Log("Sending " + code + " to NIC (int)");
 			return new SocketWriter (code,socket, writeHandler, errorHandler);
 		}
 		

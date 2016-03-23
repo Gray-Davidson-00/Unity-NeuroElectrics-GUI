@@ -3,8 +3,10 @@ using System.Collections;
 
 public class Lr_IntegerVariable : MonoBehaviour {
     public int IntegerVariable = 1;
-    public int ScaleFactor = 1;
-    // Corresponding IntegerVaribles whenever a different button is clicked 
+    public int ScaleFactor1 = 0; // Corresponding IntegerVaribles whenever a different button is clicked 
+    int[] scaleValues = new int[11] { 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}; //possible scale factors.  Since we don't at this time (3/23/16) know the size of the incoming data in micro-volts anyway I am leaving these as generic integer values.  
+    public int ScaleFactor = 0;
+
 
     // Important: The series in which electrode names have been assigned corresponds to the sequence of IntegerVariable for easy functioning of the GUI.
 
@@ -110,17 +112,19 @@ public class Lr_IntegerVariable : MonoBehaviour {
 
     public void ScaleUpClicked() // Function attached to ArrowUp button: the IntegerVariable value decreases by 1 and from the LineRenderer Script the previous Renderer in series gets higHlighted with the corresponfing electrodes
     {
-        if (ScaleFactor < 21 && ScaleFactor > 1)
+        if (ScaleFactor1 < 10)
         {
-            ScaleFactor = ScaleFactor - 1;
+            ScaleFactor1 = ScaleFactor1 + 1;
+            ScaleFactor = scaleValues[ScaleFactor1];
         }
 
     }
     public void ScaleDownClicked() // Function attached to ArrowDown button: The next renderer in series gets highlighted with corresponding electrode
     {
-        if (ScaleFactor > 0 && ScaleFactor < 20)
+        if (ScaleFactor1 > 1)
         {
-            ScaleFactor = ScaleFactor + 1;
+            ScaleFactor1 = ScaleFactor1 - 1;
+            ScaleFactor = scaleValues[ScaleFactor1];
         }
     }
 

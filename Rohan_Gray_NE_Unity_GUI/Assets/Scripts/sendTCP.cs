@@ -113,7 +113,6 @@ public class sendTCP : MonoBehaviour
     {
         if(FoundNIC == true && NICLaunched == true) // If ConnectNIC method is implemented and NIC is launched then connect() method is implemented with a delay of 2 seconds to avoid server based exceptions
         {
-			UnityEngine.Debug.Log("Gray Waypoint1 - About to connect to NIC");
 			Invoke("connect", 2f); 
             NICLaunched = false; // declared as false so that connect() method is not updated every time
         }
@@ -132,16 +131,13 @@ public class sendTCP : MonoBehaviour
 
         if (monitoring == true && Acquisition == true) // after the connection to enobio is established the startEEG() method is invoked within the connect() method and EEG monitoring is started
         {
-            UnityEngine.Debug.Log("Gray Waypoint3 - about to create inlet");
 			results = liblsl.resolve_stream("type", "EEG");
             inlet = new liblsl.StreamInlet(results[0]); // create inlet for EEG acquisition
-            UnityEngine.Debug.Log("Gray Waypoint3.5 - Inlet Created");
 			Acquisition = false; // declared false to prevent inlet to be repetitively created
             inletcreated = true;
         }
         if (monitoring == true && inletcreated == true) // after inlet is created, if it succeeded
         {
-            UnityEngine.Debug.Log("Gray Waypoint4 - about to pull chunks of data");
             chunksize = inlet.pull_chunk(buffer, timestamps);
             //UnityEngine.Debug.Log("Gray Waypoint4.1 - chunksize assigned.");
 			for (int j = 0; j < num_electrodes; j++) // amount of new data per electrode
@@ -155,7 +151,6 @@ public class sendTCP : MonoBehaviour
                 }
 
             }
-			UnityEngine.Debug.Log("Gray Waypoint5 - 1st for statement completed");
             for (int j = 0; j < num_electrodes; j++)
             {
 
@@ -168,7 +163,6 @@ public class sendTCP : MonoBehaviour
 
                 mean[j] = floatarrayofarrays[j].Sum() / floatarrayofarrays[j].Length; // computing mean for indvidual electrodes 
             }
-			UnityEngine.Debug.Log("Gray Waypoint6 - 2nd for statement completed");
             for (int k = 0; k < num_electrodes; k++) // num_electrodes = 20
             {
                 for (int i = 0; i < num_samples; i++) // num of eeg samples = 15000
@@ -181,7 +175,6 @@ public class sendTCP : MonoBehaviour
 
                 std[k] = Math.Sqrt(Sum / (floatarrayofarrays[k].Length - 1)); // standard deviation of data
             }
-            UnityEngine.Debug.Log("Gray Waypoint7 3rd for statement completed");
             for (int i = 0; i < num_electrodes; i++)
             {
                 for (int k = 0; k < 1500; k++)
@@ -200,23 +193,18 @@ public class sendTCP : MonoBehaviour
 				
 
             }         
-			UnityEngine.Debug.Log("Gray Waypoint8 4th for statement completed");
 
             if (monitoring == true && inletcreated == true && inlet2created == false) // Creating separate inlet2 for pulling Impedence data only if monitoring is on and the previous inlet for pulling EEG values is created
             {
-				UnityEngine.Debug.Log("Gray Waypoint9 prepating to pull impedence data");
                 results2 = liblsl.resolve_stream("type", "Quality");
                 inlet2 = new liblsl.StreamInlet(results2[0]);
                 Acquisition2 = false;
                 inlet2created = true;
-				UnityEngine.Debug.Log("Gray Waypoint9.1 prepating to pull impedence data");
             }
 
             if (inlet2created == true) // if inlet2 for pulling impedence values created then carry out impedence checks
             {
-                UnityEngine.Debug.Log("Gray Waypoint10 - invoking 'ImpedenceChecks () to pull impedence data");
 				ImpedenceChecks(); 
-                UnityEngine.Debug.Log("Gray Waypoint10.1 -  'ImpedenceChecks () invoked");
             }
 
         }
