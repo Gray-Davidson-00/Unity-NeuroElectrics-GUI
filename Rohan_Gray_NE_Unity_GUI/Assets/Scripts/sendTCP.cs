@@ -386,7 +386,7 @@ public class sendTCP : MonoBehaviour
 
     public void startEEG()
     {
-        RecordEEG("", "false", "false"); // Setting Boolean "false" , "false" starts monitoring the EEG but does not store any file of the data. Only if both bools are set true a .edf, .easy file of recorded EEG data would be created
+        RecordEEG("", "true", "true"); // Setting Boolean "false" , "false" starts monitoring the EEG but does not store any file of the data. Only if both bools are set true a .edf, .easy file of recorded EEG data would be created
     }
 
     public void ImpedenceChecks()

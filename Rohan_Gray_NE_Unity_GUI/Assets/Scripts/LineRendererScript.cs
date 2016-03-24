@@ -51,6 +51,7 @@ public class LineRendererScript : MonoBehaviour
 
     void Start()
     {
+        scalefactor1 = 0;
         SetScaleFactor();
         for (int i = 0; i < 20; i++)
         {
@@ -67,7 +68,7 @@ public class LineRendererScript : MonoBehaviour
         SetScaleFactor();
         for (int k = 0; k < 20;k++)
         {
-            electrodelines[k] = this.tcp.electrodes[k]; 
+            electrodelines[k] = tcp.electrodes[k]; //I don't know why this line is throwing an error, it appears all the things it points to are functioning properly.  
             ValueForInteraction = this.lriv.IntegerVariable;
             scalefactor1 = this.lriv.ScaleFactor;
             newelectrodes[k] = this.tcp.DifferentElectrodes[k];
